@@ -10,7 +10,7 @@ y = qp.win_y
 
 Y_CURSOR_LIMIT = (60, 1050)
 X_CURSOR_LIMIT = (30, 1875)
-REQUERY_INTERVAL = 6
+REQUERY_INTERVAL = 4
 reqint = 0
 
 def safe_query():
