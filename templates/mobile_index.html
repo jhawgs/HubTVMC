@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device-Specific Controls</title>
+    <title>HubTV MC</title>
     <style>
         body, html {
             margin: 0;
@@ -112,9 +112,18 @@
             <div class="button" id="btn-s">S</div>
         </div>
         <div class="button-row">
+            <div class="deadbutton" style="flex: 0 0 60px;"> </div>
+            <div class="button" id="btn-d" style="flex: 0 0 60px;">D</div>
+            <div class="deadbutton" style="flex: 0 0 60px;"> </div>
             <div class="deadbutton"> </div>
-            <div class="button" id="btn-d">D</div>
-            <div class="deadbutton"> </div>
+            <div class="button" id="btn-1">1</div>
+            <div class="button" id="btn-2">2</div>
+            <div class="button" id="btn-3">3</div>
+            <div class="button" id="btn-4">4</div>
+            <div class="button" id="btn-5">5</div>
+            <div class="button" id="btn-6">6</div>
+            <div class="button" id="btn-8">7</div>
+            <div class="button" id="btn-9">9</div>
         </div>
     </div>
 
@@ -178,6 +187,105 @@
             //buttons[event.target.innerText] = false;
             event.preventDefault();
             socket.emit('input_event', { type: 'keyup' , key: 'd' });
+        });
+
+        document.getElementById('btn-1').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '1' });
+        });
+        document.getElementById('btn-1').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '1' });
+        });
+
+        document.getElementById('btn-2').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '2' });
+        });
+        document.getElementById('btn-2').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '2' });
+        });
+
+        document.getElementById('btn-3').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '3' });
+        });
+        document.getElementById('btn-3').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '3' });
+        });
+
+        document.getElementById('btn-4').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '4' });
+        });
+        document.getElementById('btn-4').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '4' });
+        });
+
+        document.getElementById('btn-5').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '5' });
+        });
+        document.getElementById('btn-5').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '5' });
+        });
+
+        document.getElementById('btn-6').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '6' });
+        });
+        document.getElementById('btn-6').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '6' });
+        });
+
+        document.getElementById('btn-7').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '7' });
+        });
+        document.getElementById('btn-7').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '7' });
+        });
+
+        document.getElementById('btn-8').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '8' });
+        });
+        document.getElementById('btn-8').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '8' });
+        });
+
+        document.getElementById('btn-9').addEventListener('touchstart', (event) => {
+            //buttons[event.target.innerText] = true;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keydown' , key: '9' });
+        });
+        document.getElementById('btn-9').addEventListener('touchend', (event) => {
+            //buttons[event.target.innerText] = false;
+            event.preventDefault();
+            socket.emit('input_event', { type: 'keyup' , key: '9' });
         });
 
         function sendKeyState() {
