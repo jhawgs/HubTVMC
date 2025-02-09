@@ -8,7 +8,7 @@ y = qp.win_y
 
 Y_CURSOR_LIMIT = (80, 990)
 X_CURSOR_LIMIT = (30, 1875)
-REQUERY_INTERVAL = 100
+REQUERY_INTERVAL = 50
 reqint = 0
 
 events = {
@@ -92,6 +92,18 @@ def handle_key(event):
             if y + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and y + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
                 y += int(event["dy"] * 1.25)
+            while x < X_CURSOR_LIMIT[0]:
+                x += 1
+                device.emit(uinput.REL_X, 1)
+            while x > X_CURSOR_LIMIT[1]:
+                x -= 1
+                device.emit(uinput.REL_X, -1)
+            while y < Y_CURSOR_LIMIT[0]:
+                y += 1
+                device.emit(uinput.REL_Y, 1)
+            while y > Y_CURSOR_LIMIT[1]:
+                y -= 1
+                device.emit(uinput.REL_Y, -1)
             reqint += 1
         print(x, y)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
