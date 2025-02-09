@@ -6,7 +6,7 @@ from time import time
 
 OCCUPIED = False
 REFRESH_TIME = time()
-INTERFACE = ["mineflayer", "uinput", "NONE"][-1]
+INTERFACE = ["mineflayer", "uinput", "NONE"][-2]
 
 if INTERFACE == "uinput":
     from remotecontrol import handle_key
@@ -36,7 +36,6 @@ def waiting_room():
     global OCCUPIED, REFRESH_TIME
     if time() - REFRESH_TIME >= 901:
         OCCUPIED = False
-    print(OCCUPIED)
     if not OCCUPIED:
         print("redirect")
         return redirect("/controller")
