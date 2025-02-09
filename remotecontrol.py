@@ -11,6 +11,14 @@ X_CURSOR_LIMIT = (30, 1875)
 REQUERY_INTERVAL = 6
 reqint = 0
 
+def safe_query():
+    try:
+        return r.query_pointer()
+    except Exception as err:
+        print("Xlib error, recovering")
+        r = display.Display().screen().root
+        return safe_query()
+
 events = {
     "a": uinput.KEY_A,
     "b": uinput.KEY_B,
@@ -82,7 +90,7 @@ def handle_key(event):
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
             if reqint >= REQUERY_INTERVAL:
-                qp = r.query_pointer()
+                qp = safe_query()
                 x = qp.win_x
                 y = qp.win_y
                 reqint = 0
