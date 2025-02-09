@@ -45,6 +45,28 @@
             touch-action: none;  
         }
 
+        .deadbutton {
+            width: 60px;
+            height: 60px;
+            margin: 0px;
+            background-color:  #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;    /* or 'absolute' / 'fixed' */
+            z-index: 9999;  
+            touch-action: none;  
+        }
+
+        .button-row {
+            display: flex;
+            gap: 5px;               /* Space between A, S, D buttons */
+        }
+
         #swipe-area {
             position: absolute;
             top: 0;
@@ -75,10 +97,25 @@
 </head>
 <body>
 
-    <div id="swipe-area" class="hidden"><div class="button" id="btn-w">W</div>
-    <div class="button" id="btn-a">A</div>
-    <div class="button" id="btn-s">S</div>
-    <div class="button" id="btn-d">D</div></div>
+    <div id="swipe-area" class="hidden">
+        <div class="button-row"><div class="deadbutton"> </div><div class="deadbutton"> </div><div class="deadbutton"> </div></div>
+        <div class="button-row"><div class="deadbutton"> </div><div class="deadbutton"> </div><div class="deadbutton"> </div></div>
+        <div class="button-row">
+            <div class="deadbutton"> </div>
+            <div class="button" id="btn-w">W</div>
+            <div class="deadbutton"> </div>
+        </div>
+        <div class="button-row">
+            <div class="button" id="btn-a">A</div>
+            <div class="deadbutton"> </div>
+            <div class="button" id="btn-s">S</div>
+        </div>
+        <div class="button-row">
+            <div class="deadbutton"> </div>
+            <div class="button" id="btn-d">D</div>
+            <div class="deadbutton"> </div>
+        </div>
+    </div>
 
 
     <script>
