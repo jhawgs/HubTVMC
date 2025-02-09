@@ -65,6 +65,7 @@ def override():
 
 @socketio.on('input_event')
 def handle_input_event(data):
+    print(data)
     handle_key(data)#print('Received:', data)
     #remote_socket.sendto(str(data).encode(), (REMOTE_IP, REMOTE_PORT))
 

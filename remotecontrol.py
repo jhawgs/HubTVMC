@@ -51,6 +51,8 @@ events = {
     "ArrowUp": uinput.KEY_UP,
     "ArrowDown": uinput.KEY_DOWN,
     "ArrowRight": uinput.KEY_RIGHT,
+    "__EVSYN__": uinput.EV_SYN,
+    "__SYNREP__": uinput.SYN_REPORT
 }
 
 with uinput.Device(list(events.values())) as device:
@@ -65,3 +67,4 @@ with uinput.Device(list(events.values())) as device:
             elif event["type"] == "mousemove":
                 device.emit(uinput.REL_X, event["dx"])
                 device.emit(uinput.REL_Y, event["dy"])
+        device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
