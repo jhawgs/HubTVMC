@@ -1,4 +1,10 @@
 import uinput
+from Xlib import display
+
+r = display.Display().screen().root
+
+Y_CURSOR_LIMIT = (80, 990)
+X_CURSOR_LIMIT = (30, 1875)
 
 events = {
     "a": uinput.KEY_A,
@@ -69,6 +75,9 @@ def handle_key(event):
         elif event["type"] == "mousedown":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
-            device.emit(uinput.REL_X, int(event["dx"] * 1.25))
-            device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
+            qp = r.query_pointer()
+            if qp.win_x + event["dx"] * 1.25 > X_CURSOR_LIMIT[0] and qp.win_x + event["dx"] * 1.25 < X_CURSOR_LIMIT[1]:
+                device.emit(uinput.REL_X, int(event["dx"] * 1.25))
+            if qp.win_x + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and qp.win_x + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
+                device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
