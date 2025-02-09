@@ -2,16 +2,23 @@ import uinput
 from Xlib import display
 from time import sleep
 
-d = display.Display()
-r = d.screen().root
-qp = r.query_pointer()
-x = qp.win_x
-y = qp.win_y
+USE_LIMIT = True
 
-Y_CURSOR_LIMIT = (80, 1000)
-X_CURSOR_LIMIT = (30, 1875)
-REQUERY_INTERVAL = 4
+x = 0
+y = 0
 reqint = 0
+Y_CURSOR_LIMIT = (80, 1000)
+X_CURSOR_LIMIT = (-10000, 100000)
+REQUERY_INTERVAL = 4
+
+if USE_LIMIT:
+    d = display.Display()
+    r = d.screen().root
+    qp = r.query_pointer()
+    x = qp.win_x
+    y = qp.win_y
+
+    reqint = 0
 
 def safe_query():
     global r, d
@@ -96,29 +103,32 @@ def handle_key(event):
         elif event["type"] == "mousedown":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
-            if reqint >= REQUERY_INTERVAL:
+            if USE_LIMIT and reqint >= REQUERY_INTERVAL:
                 qp = safe_query()
                 x = qp.win_x
                 y = qp.win_y
                 reqint = 0
-            if x + event["dx"] * 1.25 > X_CURSOR_LIMIT[0] and x + event["dx"] * 1.25 < X_CURSOR_LIMIT[1]:
+            if not USE_LIMIT or x + event["dx"] * 1.25 > X_CURSOR_LIMIT[0] and x + event["dx"] * 1.25 < X_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_X, int(event["dx"] * 1.25))
-                x += int(event["dx"] * 1.25)
-            if y + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and y + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
+                if USE_LIMIT:
+                   x += int(event["dx"] * 1.25)
+            if not USE_LIMIT or y + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and y + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
-                y += int(event["dy"] * 1.25)
-            while x < X_CURSOR_LIMIT[0]:
-                x += 1
-                device.emit(uinput.REL_X, 1)
-            while x > X_CURSOR_LIMIT[1]:
-                x -= 1
-                device.emit(uinput.REL_X, -1)
-            while y < Y_CURSOR_LIMIT[0]:
-                y += 1
-                device.emit(uinput.REL_Y, 1)
-            while y > Y_CURSOR_LIMIT[1]:
-                y -= 1
-                device.emit(uinput.REL_Y, -1)
-            reqint += 1
+                if USE_LIMIT:
+                    y += int(event["dy"] * 1.25)
+            if USE_LIMIT:
+                while x < X_CURSOR_LIMIT[0]:
+                    x += 1
+                    device.emit(uinput.REL_X, 1)
+                while x > X_CURSOR_LIMIT[1]:
+                    x -= 1
+                    device.emit(uinput.REL_X, -1)
+                while y < Y_CURSOR_LIMIT[0]:
+                    y += 1
+                    device.emit(uinput.REL_Y, 1)
+                while y > Y_CURSOR_LIMIT[1]:
+                    y -= 1
+                    device.emit(uinput.REL_Y, -1)
+                reqint += 1
         #print(x, y)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
