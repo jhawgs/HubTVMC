@@ -1,5 +1,9 @@
 import uinput
-import pyautogui
+from Xlib import display
+
+qp = display.Display().screen().root.query_pointer()
+x = qp.win_x
+y = qp.win_y
 
 Y_CURSOR_LIMIT = (80, 990)
 X_CURSOR_LIMIT = (30, 1875)
@@ -73,9 +77,10 @@ def handle_key(event):
         elif event["type"] == "mousedown":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
-            x, y = pyautogui.position()
             if x + event["dx"] * 1.25 > X_CURSOR_LIMIT[0] and x + event["dx"] * 1.25 < X_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_X, int(event["dx"] * 1.25))
+                x += int(event["dx"] * 1.25)
             if y + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and y + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
+                y += int(event["dy"] * 1.25)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
