@@ -66,6 +66,6 @@ def handle_key(event):
         elif event["type"] == "mousedown":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
-            device.emit(uinput.REL_X, event["dx"])
-            device.emit(uinput.REL_Y, event["dy"])
+            device.emit(uinput.REL_X, event["dx"] * 1.25)
+            device.emit(uinput.REL_Y, event["dy"] * 1.25)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
