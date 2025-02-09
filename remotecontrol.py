@@ -120,5 +120,5 @@ def handle_key(event):
                 y -= 1
                 device.emit(uinput.REL_Y, -1)
             reqint += 1
-        print(x, y)
+        #print(x, y)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
