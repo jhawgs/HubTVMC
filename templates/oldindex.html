@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device-Specific Controls</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .button {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #swipe-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 24px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .hidedesktop {
+
+        }
+
+    </style>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="overlay">Tap to Start</div>
+
+    <div id="swipe-area" class="hidden"></div>
+
+    <div id="controls" class="hidedesktop">
+        <div class="button" id="btn-w">W</div>
+        <div class="button" id="btn-a">A</div>
+        <div class="button" id="btn-s">S</div>
+        <div class="button" id="btn-d">D</div>
+    </div>
+
+    <script>
+        const socket = io();
+        const overlay = document.getElementById('overlay');
+        const swipeArea = document.getElementById('swipe-area');
+        const controls = document.getElementById('controls');
+        const isMobile = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            let lastTouch = { x: 0, y: 0 };
+
+            // Virtual WASD button events
+            const buttons = {
+                'W': false,
+                'A': false,
+                'S': false,
+                'D': false
+            };
+
+            const buttonIds = ['btn-w', 'btn-a', 'btn-s', 'btn-d'];
+            buttonIds.forEach(id => {
+                document.getElementById(id).addEventListener('touchstart', (event) => {
+                    buttons[event.target.innerText] = true;
+                    sendKeyState();
+                });
+                document.getElementById(id).addEventListener('touchend', (event) => {
+                    buttons[event.target.innerText] = false;
+                    sendKeyState();
+                });
+            });
+
+            function sendKeyState() {
+                socket.emit('input_event', { type: 'keydown', buttons });
+            }
+
+            // Swipe handling for mobile devices (mouse-like movement)
+            let swipeStart = { x: 0, y: 0 };
+            swipeArea.addEventListener('touchstart', (e) => {
+                swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+
+            swipeArea.addEventListener('touchmove', (e) => {
+                const dx = e.touches[0].clientX - swipeStart.x;
+                const dy = e.touches[0].clientY - swipeStart.y;
+                socket.emit('input_event', { type: 'mousemove', dx, dy });
+
+                swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+
+            // Overlay click to start
+            overlay.addEventListener('click', () => {
+                overlay.style.display = 'none';
+                swipeArea.classList.remove('hidden');
+                controls.classList.remove('hidden');
+            });
+
+            // Show mobile controls or desktop controls based on device
+            if (isMobile) {
+                // Mobile: show swipe area and virtual buttons
+                swipeArea.classList.remove('hidden');
+                controls.classList.remove('hidden');
+            } else {
+                // Desktop: hide touch controls and show mouse-based controls (optional)
+                // You can implement additional mouse behavior here for desktops if needed
+            }
+
+            // Touch interactions for mobile browsers
+            document.addEventListener('touchstart', (event) => {
+                if (document.pointerLockElement === null) {
+                    event.preventDefault();  // Prevent any default touch events
+                }
+            });
+        } else {
+            // Request pointer lock when overlay is clicked
+            overlay.addEventListener('click', () => {
+                document.body.requestPointerLock();
+            });
+
+            // Detect pointer lock changes
+            document.addEventListener('pointerlockchange', () => {
+                if (document.pointerLockElement === document.body) {
+                    overlay.style.display = 'none';
+                    console.log('Pointer locked');
+                } else {
+                    overlay.style.display = 'flex';
+                    console.log('Pointer unlocked');
+                }
+            });
+
+            // Capture mouse movement deltas when pointer is locked
+            document.addEventListener('mousemove', (event) => {
+                if (document.pointerLockElement === document.body) {
+                    socket.emit('input_event', { type: 'mousemove', dx: event.movementX, dy: event.movementY });
+                }
+            });
+
+            // Capture mouse click events
+            document.addEventListener('mousedown', (event) => {
+                if (document.pointerLockElement === document.body) {
+                    socket.emit('input_event', { type: 'mousedown', button: event.button });
+                }
+            });
+
+            document.addEventListener('mouseup', (event) => {
+                if (document.pointerLockElement === document.body) {
+                    socket.emit('input_event', { type: 'mouseup', button: event.button });
+                }
+            });
+
+            // Capture keyboard input globally
+            document.addEventListener('keydown', (event) => {
+                if (document.pointerLockElement === document.body) {
+                    socket.emit('input_event', { type: 'keydown', key: event.key });
+                }
+            });
+
+            document.addEventListener('keyup', (event) => {
+                if (document.pointerLockElement === document.body) {
+                    socket.emit('input_event', { type: 'keyup', key: event.key });
+                }
+            });
+        }
+
+        // Device Detection: Handle mobile vs desktop
+        if (isMobile) {
+            console.log("Mobile device detected. Enabling swipe and virtual keys.");
+        } else {
+            console.log("Desktop detected. Mouse-based controls can be added here.");
+            // You can add more mouse interactions for desktop here
+        }
+    </script>
+</body>
+</html>
