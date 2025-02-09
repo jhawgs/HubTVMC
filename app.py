@@ -1,14 +1,16 @@
 # app.py (on Raspberry Pi)
 from flask import Flask, render_template, redirect
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 import socket
 
-INTERFACE = ["mineflayer", "uinput"][-1]
+INTERFACE = ["mineflayer", "uinput", "NONE"][-2]
 
 if INTERFACE == "uinput":
     from remotecontrol import handle_key
 elif INTERFACE == "mineflayer":
     from mineflayer import handle_key
+elif INTERFACE == "NONE":
+    handle_key = lambda x: None
 else:
     raise NotImplementedError()
 
