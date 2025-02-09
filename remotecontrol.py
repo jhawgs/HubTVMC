@@ -59,7 +59,10 @@ device = uinput.Device(list(events.values()))
 
 def handle_key(event):
     if event["type"] in ["keydown", "keyup"]:
-        device.emit(events[event["key"]], 1 if event["type"] == "keydown" else 0)
+        if event["key"] not in events:
+            print("Unknown Key: {}".format(event["key"]))
+        else:
+            device.emit(events[event["key"]], 1 if event["type"] == "keydown" else 0)
     elif event["type"].startswith("mouse"):
         if event["type"] == "mouseup":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 0)
