@@ -93,4 +93,5 @@ def handle_key(event):
                 device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
                 y += int(event["dy"] * 1.25)
             reqint += 1
+        print(x, y)
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
