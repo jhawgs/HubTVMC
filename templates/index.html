@@ -55,6 +55,7 @@
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 </head>
 <body>
+    <meta http-equiv="refresh" content="900;url=/exit">
     <div id="overlay">Click to Play<br>Just press keys normally.<br>You have full control!</div>
     <div id="swipe-area"></div>
 
@@ -136,6 +137,10 @@
             socket.emit('input_event', { type: 'mousemove', dx, dy });
 
             swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        });
+
+        socket.on('force_redirect', function(data) {
+            window.location.href = data.url;  // Redirect the user to the new page
         });
     </script>
 </body>

@@ -1,4 +1,4 @@
 javascript
 flask-socketio
 flask
-uinput
+python-uinput

@@ -2,7 +2,7 @@
 from flask import Flask, render_template, redirect
 from flask_socketio import SocketIO
 import socket
-from time import time
+from time import time, sleep
 
 OCCUPIED = False
 REFRESH_TIME = time()
@@ -29,33 +29,39 @@ remote_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 @app.route('/')
 def index():
-    return render_template('index.html'), {"Refresh": "900; url=/waiting-room"}
+    return redirect("waiting-room")#return render_template('index.html'), {"Refresh": "900; url=/waiting-room"}
 
 @app.route('/waiting-room')
 def waiting_room():
     global OCCUPIED, REFRESH_TIME
+    print(OCCUPIED)
     if time() - REFRESH_TIME >= 901:
         OCCUPIED = False
+    print(OCCUPIED)
     if not OCCUPIED:
         print("redirect")
         return redirect("/controller")
-    return render_template("waiting.html"), {"Refresh": "10: url=/waiting-room"}
+    return render_template("waiting.html")
 
 @app.route('/controller')
 def controller():
    global REFRESH_TIME, OCCUPIED
+   print(OCCUPIED)
    if OCCUPIED:
        return redirect('/waiting-room')
    OCCUPIED = True
+   print(OCCUPIED)
    REFRESH_TIME = time()
-   return render_template('index.html'), {"Refresh": "900; url=/exit"}
+   return render_template('index.html')
 
 @app.route('/exit')
 def done():
-    return render_template('done.html'), {"Refresh": "10: url=/waiting-room"}
+    return render_template('done.html')
 
 @app.route("/override")
 def override():
+    socketio.emit('force_redirect')
+    sleep(5)
     global OCCUPIED
     OCCUPIED = False
     return redirect("/controller")
