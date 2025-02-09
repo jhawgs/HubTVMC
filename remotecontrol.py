@@ -8,7 +8,7 @@ y = qp.win_y
 
 Y_CURSOR_LIMIT = (80, 990)
 X_CURSOR_LIMIT = (30, 1875)
-REQUERY_INTERVAL = 50
+REQUERY_INTERVAL = 10
 reqint = 0
 
 events = {
