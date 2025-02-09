@@ -2,7 +2,7 @@ import uinput
 from Xlib import display
 from time import sleep
 
-USE_LIMIT = True
+USE_LIMIT = False
 
 x = 0
 y = 0
@@ -119,12 +119,12 @@ events = {
 
 device = uinput.Device(list(events.values()))
 
-sleep(5)
+#sleep(5)
 
-device.emit(uinput.KEY_FN, 1)
-device.emit(uinput.KEY_F11, 1)
-device.emit(uinput.KEY_FN, 0)
-device.emit(uinput.KEY_F11, 0)
+#device.emit(uinput.KEY_FN, 1)
+#device.emit(uinput.KEY_F11, 1)
+#device.emit(uinput.KEY_FN, 0)
+#device.emit(uinput.KEY_F11, 0)
 
 def handle_key(event):
     global x, y, reqint
