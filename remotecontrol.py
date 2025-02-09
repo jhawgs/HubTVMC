@@ -1,12 +1,15 @@
 import uinput
 from Xlib import display
 
-qp = display.Display().screen().root.query_pointer()
+r = display.Display().screen().root
+qp = r.query_pointer()
 x = qp.win_x
 y = qp.win_y
 
 Y_CURSOR_LIMIT = (80, 990)
 X_CURSOR_LIMIT = (30, 1875)
+REQUERY_INTERVAL = 100
+reqint = 0
 
 events = {
     "a": uinput.KEY_A,
@@ -66,7 +69,7 @@ events = {
 device = uinput.Device(list(events.values()))
 
 def handle_key(event):
-    global x, y
+    global x, y, reqint
     if event["type"] in ["keydown", "keyup"]:
         if event["key"] not in events:
             print("Unknown Key: {}".format(event["key"]))
@@ -78,10 +81,16 @@ def handle_key(event):
         elif event["type"] == "mousedown":
             device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
         elif event["type"] == "mousemove":
+            if reqint >= REQUERY_INTERVAL:
+                qp = r.query_pointer()
+                x = qp.win_x
+                y = qp.win_y
+                reqint = 0
             if x + event["dx"] * 1.25 > X_CURSOR_LIMIT[0] and x + event["dx"] * 1.25 < X_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_X, int(event["dx"] * 1.25))
                 x += int(event["dx"] * 1.25)
             if y + event["dy"] * 1.25 > Y_CURSOR_LIMIT[0] and y + event["dy"] * 1.25 < Y_CURSOR_LIMIT[1]:
                 device.emit(uinput.REL_Y, int(event["dy"] * 1.25))
                 y += int(event["dy"] * 1.25)
+            reqint += 1
     #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
