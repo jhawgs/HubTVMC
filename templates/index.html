@@ -32,6 +32,9 @@
             font-size: 24px;
             z-index: 10;
             cursor: pointer;
+            text-align: center; /* Ensures text breaks appropriately */
+            word-wrap: break-word; /* Ensures long text wraps and breaks into next line */
+            padding: 20px; /* Optional padding */
         }
 
         #smaller {
@@ -134,7 +137,6 @@
 
             swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         });
-        
     </script>
 </body>
 </html>

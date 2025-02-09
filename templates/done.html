@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HubTV MC Waiting Room</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #222;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            cursor: none; /* Hide the cursor */
+            user-select: none;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 24px;
+            z-index: 10;
+            cursor: pointer;
+            text-align: center; /* Ensures text breaks appropriately */
+            word-wrap: break-word; /* Ensures long text wraps and breaks into next line */
+            padding: 20px; /* Optional padding */
+        }
+
+        #smaller {
+            font-size: 20px;
+        }
+
+        #swipe-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+        }
+
+    </style>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div id="overlay">The controller is refreshing.<br>We will redirect you to the waiting room soon.</div>
+</body>
+</html>
