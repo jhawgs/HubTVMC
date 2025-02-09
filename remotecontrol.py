@@ -84,11 +84,47 @@ events = {
     "ArrowUp": uinput.KEY_UP,
     "ArrowDown": uinput.KEY_DOWN,
     "ArrowRight": uinput.KEY_RIGHT,
+    "__KEYF11__": uinput.KEY_F11,
+    "__KEYFN__": uinput.KEY_FN,
     #"__EVSYN__": uinput.EV_SYN,
     #"__SYNREP__": uinput.SYN_REPORT
-}
+} | {k.upper() : v for k, v in {
+    "a": uinput.KEY_A,
+    "b": uinput.KEY_B,
+    "c": uinput.KEY_C,
+    "d": uinput.KEY_D,
+    "e": uinput.KEY_E,
+    "f": uinput.KEY_F,
+    "g": uinput.KEY_G,
+    "h": uinput.KEY_H,
+    "i": uinput.KEY_I,
+    "j": uinput.KEY_J,
+    "k": uinput.KEY_K,
+    "l": uinput.KEY_L,
+    "m": uinput.KEY_M,
+    "n": uinput.KEY_N,
+    "o": uinput.KEY_O,
+    "p": uinput.KEY_P,
+    "q": uinput.KEY_Q,
+    "r": uinput.KEY_R,
+    "s": uinput.KEY_S,
+    "t": uinput.KEY_T,
+    "u": uinput.KEY_U,
+    "v": uinput.KEY_V,
+    "w": uinput.KEY_W,
+    "x": uinput.KEY_X,
+    "y": uinput.KEY_Y,
+    "z": uinput.KEY_Z,
+}.items()}
 
 device = uinput.Device(list(events.values()))
+
+sleep(5)
+
+device.emit(uinput.KEY_FN, 1)
+device.emit(uinput.KEY_F11, 1)
+device.emit(uinput.KEY_FN, 0)
+device.emit(uinput.KEY_F11, 0)
 
 def handle_key(event):
     global x, y, reqint
