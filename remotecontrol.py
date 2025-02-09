@@ -1,7 +1,9 @@
 import uinput
 from Xlib import display
+from time import sleep
 
-r = display.Display().screen().root
+d = display.Display()
+r = d.screen().root
 qp = r.query_pointer()
 x = qp.win_x
 y = qp.win_y
@@ -12,11 +14,16 @@ REQUERY_INTERVAL = 6
 reqint = 0
 
 def safe_query():
+    global r, d
     try:
         return r.query_pointer()
     except Exception as err:
         print("Xlib error, recovering")
-        r = display.Display().screen().root
+        del r
+        d.close()
+        sleep(.01)
+        d = display.Display()
+        r = d.screen().root
         return safe_query()
 
 events = {
