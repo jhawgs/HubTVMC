@@ -51,8 +51,8 @@ events = {
     "ArrowUp": uinput.KEY_UP,
     "ArrowDown": uinput.KEY_DOWN,
     "ArrowRight": uinput.KEY_RIGHT,
-    "__EVSYN__": uinput.EV_SYN,
-    "__SYNREP__": uinput.SYN_REPORT
+    #"__EVSYN__": uinput.EV_SYN,
+    #"__SYNREP__": uinput.SYN_REPORT
 }
 
 device = uinput.Device(list(events.values()))
