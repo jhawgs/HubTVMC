@@ -6,9 +6,9 @@ qp = r.query_pointer()
 x = qp.win_x
 y = qp.win_y
 
-Y_CURSOR_LIMIT = (80, 990)
+Y_CURSOR_LIMIT = (60, 1050)
 X_CURSOR_LIMIT = (30, 1875)
-REQUERY_INTERVAL = 10
+REQUERY_INTERVAL = 6
 reqint = 0
 
 events = {
