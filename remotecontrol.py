@@ -55,16 +55,17 @@ events = {
     "__SYNREP__": uinput.SYN_REPORT
 }
 
-with uinput.Device(list(events.values())) as device:
-    def handle_key(event):
-        if event["type"] in ["keydown", "keyup"]:
-            device.emit(events[event["key"]], 1 if event["type"] == "keydown" else 0)
-        elif event["type"].startswith("mouse"):
-            if event["type"] == "mouseup":
-                device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 0)
-            elif event["type"] == "mousedown":
-                device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
-            elif event["type"] == "mousemove":
-                device.emit(uinput.REL_X, event["dx"])
-                device.emit(uinput.REL_Y, event["dy"])
-        device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
+device = uinput.Device(list(events.values()))
+
+def handle_key(event):
+    if event["type"] in ["keydown", "keyup"]:
+        device.emit(events[event["key"]], 1 if event["type"] == "keydown" else 0)
+    elif event["type"].startswith("mouse"):
+        if event["type"] == "mouseup":
+            device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 0)
+        elif event["type"] == "mousedown":
+            device.emit(uinput.BTN_LEFT if event["button"] == 0 else uinput.BTN_RIGHT, 1)
+        elif event["type"] == "mousemove":
+            device.emit(uinput.REL_X, event["dx"])
+            device.emit(uinput.REL_Y, event["dy"])
+    device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
