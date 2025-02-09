@@ -68,4 +68,4 @@ def handle_key(event):
         elif event["type"] == "mousemove":
             device.emit(uinput.REL_X, event["dx"])
             device.emit(uinput.REL_Y, event["dy"])
-    device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
+    #device.emit(uinput.EV_SYN, uinput.SYN_REPORT, 0)
