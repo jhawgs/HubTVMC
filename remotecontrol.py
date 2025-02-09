@@ -66,6 +66,7 @@ events = {
 device = uinput.Device(list(events.values()))
 
 def handle_key(event):
+    global x, y
     if event["type"] in ["keydown", "keyup"]:
         if event["key"] not in events:
             print("Unknown Key: {}".format(event["key"]))
