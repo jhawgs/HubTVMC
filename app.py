@@ -33,10 +33,7 @@ def index():
 
 @app.route('/waiting-room')
 def waiting_room():
-    global OCCUPIED, REFRESH_TIME
-    print(OCCUPIED)
-    if time() - REFRESH_TIME >= 901:
-        OCCUPIED = False
+    global OCCUPIED
     print(OCCUPIED)
     if not OCCUPIED:
         print("redirect")
