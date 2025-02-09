@@ -2,3 +2,4 @@ javascript
 flask-socketio
 flask
 python-uinput
+Xlib
