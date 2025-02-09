@@ -21,6 +21,7 @@ label.pack(fill=tk.BOTH, expand=True)
 
 root.update_idletasks()
 
+"""
 # === Make the Window Non-Interactive (Click-Through) ===
 def make_click_through():
     # Get the window ID using wmctrl
@@ -46,6 +47,7 @@ def make_click_through():
 
 # Wait a moment for the window to initialize, then apply properties
 root.after(500, make_click_through)
+"""
 
 # === Run the Banner ===
 root.mainloop()
