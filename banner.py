@@ -1,6 +1,11 @@
 import tkinter as tk
 import subprocess
-import time
+
+def get_ip():
+    result = subprocess.check_output(["hostname", "-I"], text=True)
+    return result.strip().split(" ")[-1]
+
+gip = get_ip()
 
 # === Create the Banner Window ===
 root = tk.Tk()
@@ -15,7 +20,7 @@ banner_height = 50  # Banner height in pixels
 root.geometry(f"{screen_width}x{banner_height}+0+0")  # Full width, top of the screen
 
 # === Banner Content ===
-label = tk.Label(root, text="🚀 SYSTEM BANNER - Raspberry Pi", font=("Arial", 18, "bold"),
+label = tk.Label(root, text="HubTV MC - Connect to Claremont-ETC and go to {}:5022 in your browser to control!".format(str(gip)), font=("Arial", 18, "bold"),
                  bg="black", fg="white", padx=20, pady=10)
 label.pack(fill=tk.BOTH, expand=True)
 
