@@ -1,0 +1,20 @@
+sudo systemctl restart hostapd
+echo Restarted  Webservice
+
+startx & echo Starting GUI
+
+wait 60
+
+sudo xset dpms force off
+
+/home/HubTVMC/start.sh & echo Starting Control Server
+/home/scripts/minecraft.sh & echo Starting Minecraft
+
+#/home/HubTVMC/start.sh
+#echo Started Control Server
+
+#sleep 60 && /home/scripts/minecraft.sh
+#echo Started Minecraft
+
+
+#sudo xset dpms force on
