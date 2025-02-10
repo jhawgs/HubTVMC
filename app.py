@@ -5,6 +5,7 @@ import socket
 from time import time, sleep
 
 OCCUPIED = False
+ACTIVATED = False
 REFRESH_TIME = time()
 INTERFACE = ["mineflayer", "uinput", "NONE"][-2]
 
@@ -44,6 +45,9 @@ def index():
 
 @app.route('/waiting-room')
 def waiting_room():
+    global ACTIVATED
+    if not ACTIVATED:
+        return redirect("/closed")
     global OCCUPIED
     print(OCCUPIED)
     if not OCCUPIED:
@@ -53,6 +57,9 @@ def waiting_room():
 
 @app.route('/controller')
 def controller():
+    global ACTIVATED
+    if not ACTIVATED:
+        return redirect("/closed")
     global REFRESH_TIME, OCCUPIED
     print(OCCUPIED)
     if OCCUPIED:
@@ -67,19 +74,36 @@ def controller():
 
 @app.route('/exit')
 def done():
+    global ACTIVATED
+    if not ACTIVATED:
+        return redirect("/closed")
     return render_template('done.html')
 
 @app.route("/override")
 def override():
+    global ACTIVATED
+    if not ACTIVATED:
+        return redirect("/closed")
     socketio.emit('force_redirect')
     sleep(5)
     global OCCUPIED
     OCCUPIED = False
     return redirect("/controller")
 
+@app.route("/activate")
+def activate():
+    global ACTIVATED
+    ACTIVATED = True
+    print("ACTIVATED")
+    return redirect("/controller")
+
+@app.route("/closed")
+def inactive_closed():
+    return render_template("closed.html")
+
 @socketio.on('input_event')
 def handle_input_event(data):
-    #print(data)
+    print(data)
     handle_key(data)#print('Received:', data)
     #remote_socket.sendto(str(data).encode(), (REMOTE_IP, REMOTE_PORT))
 
