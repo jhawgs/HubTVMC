@@ -86,6 +86,8 @@ events = {
     "ArrowRight": uinput.KEY_RIGHT,
     "__KEYF11__": uinput.KEY_F11,
     "__KEYFN__": uinput.KEY_FN,
+    ".": uinput.KEY_DOT,
+    "/": uinput.KEY_SLASH
     #"__EVSYN__": uinput.EV_SYN,
     #"__SYNREP__": uinput.SYN_REPORT
 } | {k.upper() : v for k, v in {
