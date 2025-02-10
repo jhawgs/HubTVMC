@@ -7,14 +7,12 @@ while ! xset q &>/dev/null; do
     sleep 1
 done
 
-sleep 120
+sudo xset dpms force off
 
-#sudo xset dpms force off
+sleep 5
 
-#sleep 5
-
-#/home/HubTVMC/start.sh & echo Starting Control Server
-#/home/scripts/minecraft.sh & echo Starting Minecraft
+/home/HubTVMC/start.sh & echo Starting Control Server
+/home/scripts/minecraft.sh & echo Starting Minecraft
 #______________________
 #/home/HubTVMC/start.sh
 #echo Started Control Server
