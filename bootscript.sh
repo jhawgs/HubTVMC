@@ -1,15 +1,15 @@
 sudo systemctl restart hostapd
 echo Restarted  Webservice
 
-sudo startx & echo Starting GUI
+#sudo startx & echo Starting GUI
 
-while ! xset q &>/dev/null; do
-    sleep 1
-done
+#while ! xset q &>/dev/null; do
+#    sleep 1
+#done
 
-sudo xset dpms force off
+#sudo xset dpms force off
 
-echo Done
+#echo Done
 
 #sleep 5
 
