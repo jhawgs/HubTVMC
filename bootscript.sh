@@ -3,7 +3,7 @@ echo Restarted  Webservice
 
 startx & echo Starting GUI
 
-wait 60
+wait 120
 
 sudo xset dpms force off
 
