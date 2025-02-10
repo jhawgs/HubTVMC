@@ -7,6 +7,8 @@ wait 60
 
 sudo xset dpms force off
 
+wait 5
+
 /home/HubTVMC/start.sh & echo Starting Control Server
 /home/scripts/minecraft.sh & echo Starting Minecraft
 
