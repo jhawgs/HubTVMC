@@ -1,7 +1,7 @@
 sudo systemctl restart hostapd
 echo Restarted  Webservice
 
-startx & echo Starting GUI
+startx & echo Starting GUI & wait 120
 
 wait 120
 
