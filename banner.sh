@@ -1,0 +1,1 @@
+/home/scripts/minecraft.sh & sudo /home/HubTVMC/virtualenv/bin/python3 /home/HubTBMC/banner.py
