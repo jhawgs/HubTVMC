@@ -3,18 +3,16 @@ echo Restarted  Webservice
 
 sudo startx & echo Starting GUI
 
-sleep 100
-
-#while ! xset q &>/dev/null; do
-#    sleep 1
-#done
+while ! xset q &>/dev/null; do
+    sleep 1
+done
 
 sudo xset dpms force off
 
-sleep 5
+#sleep 5
 
-/home/HubTVMC/start.sh & echo Starting Control Server
-/home/scripts/minecraft.sh & echo Starting Minecraft
+#/home/HubTVMC/start.sh & echo Starting Control Server
+#/home/scripts/minecraft.sh & echo Starting Minecraft
 #______________________
 #/home/HubTVMC/start.sh
 #echo Started Control Server
