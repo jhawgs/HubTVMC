@@ -9,6 +9,8 @@ done
 
 sudo xset dpms force off
 
+echo Done
+
 #sleep 5
 
 #/home/HubTVMC/start.sh & echo Starting Control Server
