@@ -3,9 +3,11 @@ echo Restarted  Webservice
 
 sudo startx & echo Starting GUI
 
-while ! xset q &>/dev/null; do
-    sleep 1
-done
+sleep 100
+
+#while ! xset q &>/dev/null; do
+#    sleep 1
+#done
 
 sudo xset dpms force off
 
