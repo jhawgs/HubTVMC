@@ -7,7 +7,8 @@ from time import time, sleep
 OCCUPIED = False
 ACTIVATED = False
 REFRESH_TIME = time()
-INTERFACE = ["mineflayer", "uinput", "NONE"][-2]
+LAST_EVENT_TIME = time()
+INTERFACE = ["mineflayer", "uinput", "NONE"][-1]
 
 if INTERFACE == "uinput":
     from remotecontrol import handle_key
@@ -45,10 +46,12 @@ def index():
 
 @app.route('/waiting-room')
 def waiting_room():
-    global ACTIVATED
+    global ACTIVATED, LAST_EVENT_TIME
     if not ACTIVATED:
         return redirect("/closed")
     global OCCUPIED
+    if time() - LAST_EVENT_TIME >= 120:
+        OCCUPIED = False
     print(OCCUPIED)
     if not OCCUPIED:
         print("redirect")
@@ -103,8 +106,14 @@ def inactive_closed():
 
 @socketio.on('input_event')
 def handle_input_event(data):
-    print(data)
-    handle_key(data)#print('Received:', data)
+    global LAST_EVENT_TIME
+    LAST_EVENT_TIME = time()
+    if "dx" not in data:
+        print(data)
+        handle_key(data)#print('Received:', data)
+    elif data["dx"] != 0 or data["dy"] != 0:
+        print(data)
+        handle_key(data)
     #remote_socket.sendto(str(data).encode(), (REMOTE_IP, REMOTE_PORT))
 
 @socketio.on('disconnect')

@@ -307,20 +307,45 @@
             socket.emit('input_event', { type: 'keydown', buttons });
         }
 
-        // Capture mouse click events
-        swipeArea.addEventListener('touchstart', (event) => {
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        function emitmouse(event) {
             if (!(btnnames.includes(event.target.id))) {
                 socket.emit('input_event', { type: 'mousedown', button: '0' });
+                sleep(10);
+                socket.emit('input_event', { type: 'mouseup', button: '0' });
             }
+        }
+
+        function rightclick(event) {
+            if (!(btnnames.includes(event.target.id))) {
+                socket.emit('input_event', { type: 'mousedown', button: '2' });
+                sleep(10);
+                socket.emit('input_event', { type: 'mouseup', button: '2' });
+            }
+        }
+
+        swipeArea.addEventListener('dblclick', (event) => {
+            rightclick(event);
         });
 
-        swipeArea.addEventListener('touchend', (event) => {
+        // Capture mouse click events
+        swipeArea.addEventListener('touchstart', (event) => {
+            emitmouse(event);
+            //swipeArea.addEventListener('touchstart', rightclick);
+            //setTimeout(() => {
+            //    swipeArea.removeEventListener('touchstart', rightclick)
+            //}, .7);
+            //sleep(1000)
+        });
+
+        /*swipeArea.addEventListener('touchend', (event) => {
             if (!(btnnames.includes(event.target.id))) {
                 socket.emit('input_event', { type: 'mouseup', button: '0'});
                 socket.emit('input_event', { type: 'mousedown', button: '2'});
                 socket.emit('input_event', { type: 'mouseup', button: '2'});
             }
-        });
+        });*/
 
         // Swipe handling for mobile devices (mouse-like movement)
         let swipeStart = { x: 0, y: 0 };
