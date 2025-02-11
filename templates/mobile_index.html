@@ -135,6 +135,8 @@
         const overlay = document.getElementById('overlay');
         const swipeArea = document.getElementById('swipe-area');
         const controls = document.getElementById('controls');
+        let clickTimeout = null;
+        let clickTimeout2 = null;
 
         const btnnames = ["btn-w", "btn-a", "btn-s", "btn-d", "btn-1", "btn-2", "btn-3", "btn-4", "btn-5", "btn-6", "btn-7", "btn-8", "btn-9", "btn-e"];
 
@@ -327,16 +329,30 @@
 
         swipeArea.addEventListener('dblclick', (event) => {
             rightclick(event);
+            //sleep(100);
+            clearTimeout(clickTimeout);
+            clearTimeout(clickTimeout2);
+            console.log(clickTimeout);
+            console.log(clickTimeout2);
         });
 
+
         // Capture mouse click events
-        swipeArea.addEventListener('touchstart', (event) => {
-            emitmouse(event);
-            //swipeArea.addEventListener('touchstart', rightclick);
-            //setTimeout(() => {
-            //    swipeArea.removeEventListener('touchstart', rightclick)
-            //}, .7);
-            //sleep(1000)
+        swipeArea.addEventListener('click', (event) => {
+            //emitmouse(event);
+            if (!!clickTimeout) {
+                clickTimeout = setTimeout(() => {
+                    //console.log("Single Click Detected");
+                    emitmouse(event);
+                    clickTimeout = null;
+                }, 300);
+            } else {
+                clickTimeout2 = setTimeout(() => {
+                    //console.log("Single Click Detected");
+                    emitmouse(event);
+                    clickTimeout2 = null;
+                }, 300);
+            }
         });
 
         /*swipeArea.addEventListener('touchend', (event) => {
