@@ -8,7 +8,7 @@ OCCUPIED = False
 ACTIVATED = False
 REFRESH_TIME = time()
 LAST_EVENT_TIME = time()
-INTERFACE = ["mineflayer", "uinput", "NONE"][-1]
+INTERFACE = ["mineflayer", "uinput", "NONE"][-2]
 
 if INTERFACE == "uinput":
     from remotecontrol import handle_key
