@@ -108,7 +108,7 @@ def inactive_closed():
 def handle_input_event(data):
     global LAST_EVENT_TIME
     LAST_EVENT_TIME = time()
-    if "dx" not in data:
+    if "key" in data:
         print(data)
         handle_key(data)#print('Received:', data)
     elif data["dx"] != 0 or data["dy"] != 0:
