@@ -20,8 +20,8 @@ banner_height = 50  # Banner height in pixels
 root.geometry(f"{screen_width}x{banner_height}+0+0")  # Full width, top of the screen
 
 # === Banner Content ===
-label = tk.Label(root, text="HubTV MC - Connect to Claremont-ETC and go to {}:5022 in your browser to control!".format(str(gip)), font=("Arial", 18, "bold"),
-                 bg="black", fg="white", padx=20, pady=10)
+label = tk.Label(root, text="HubTV MC - Connect to Claremont-ETC and go to http://tinyurl.com/HubMinecraft in your browser to control!".format(str(gip)), font=("Arial", 18, "bold"), bg="black", fg="white", padx=20, pady=10)
+#label = tk.Label(root, text="HubTV MC - Connect to Claremont-ETC and go to {}:5022 in your browser to control!".format(str(gip)), font=("Arial", 18, "bold"), bg="black", fg="white", padx=20, pady=10)
 label.pack(fill=tk.BOTH, expand=True)
 
 root.update_idletasks()
